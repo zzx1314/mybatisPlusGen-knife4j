@@ -1,0 +1,18 @@
+server:
+  port: 9527
+
+knife4j:
+  enable: true
+  openapi:
+    title: mybatisPlus代码生成工具
+    description: 代码生成工具
+    email: zzx_nuc@163.com
+    concat: zzx
+    version: v4.0
+    license: Apache 2.0
+    group:
+      gen:
+        group-name: 代码生成
+        api-rule: package
+        api-rule-resources:
+          - com.zk.gen
