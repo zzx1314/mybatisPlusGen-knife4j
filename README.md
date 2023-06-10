@@ -5,3 +5,7 @@
 2、运行GenApplication项目
 3、浏览器点击 http://localhost:9527/doc.html
 ```
+
+![codeGen](./img/codeGen.png)
+
+![index](./img/index.png)
