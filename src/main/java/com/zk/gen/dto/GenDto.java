@@ -22,4 +22,14 @@ public class GenDto {
 
     @ApiModelProperty(value = "密码", example = "123456")
     private String password;
+
+    @ApiModelProperty(value = "包名")
+    private String packgeName;
+
+    @ApiModelProperty(value = "前缀", example = "com.superred.th.upms.biz")
+    private String parent;
+
+    @ApiModelProperty(value = "项目位置")
+    private String projectPath;
+
 }
