@@ -46,7 +46,7 @@ public class GenService {
 
         // 公共父类
         // 写于父类中的公共字段
-        strategy.setInclude("act_th_task");
+        strategy.setInclude(genDto.getTableName());
         strategy.setControllerMappingHyphenStyle(true);
         mpg.setStrategy(strategy);
         mpg.setTemplateEngine(new FreemarkerTemplateEngine());
@@ -113,6 +113,7 @@ public class GenService {
         pc.setService(packgeName + ".service");
         pc.setServiceImpl(packgeName + ".service.impl");
         pc.setMapper(packgeName + ".mapper");
+        pc.setXml(packgeName + ".mapper");
         return pc;
     }
 
