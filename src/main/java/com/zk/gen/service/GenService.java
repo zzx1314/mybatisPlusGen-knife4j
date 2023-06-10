@@ -134,21 +134,31 @@ public class GenService {
         };
 
         // 如果模板引擎是 freemarker
-        String templatePath = "/templates/mapper.xml.ftl";
+        String templateDtoPath = "/templates/dto.xml.ftl";
+        String templateQueryDtoPath = "/templates/queryDto.xml.ftl";
 
-        /*// 自定义输出配置
-        List<FileOutConfig> focList = new ArrayList<>();
+        // 自定义输出配置
+        List<FileOutConfig> focListDto = new ArrayList<>();
         // 自定义配置会被优先输出
-        focList.add(new FileOutConfig(templatePath) {
+        focListDto.add(new FileOutConfig(templateDtoPath) {
             @Override
             public String outputFile(TableInfo tableInfo) {
                 // 自定义输出文件名 ， 如果你 Entity 设置了前后缀、此处注意 xml 的名称会跟着发生变化！！
-                return genDto.getProjectPath() + "/src/main/resources/mapper/" + genDto.getPackgeName()
-                        + "/" + tableInfo.getEntityName() + "Mapper" + StringPool.DOT_XML;
+                return genDto.getProjectPath() + "/src/main/java/"  + genDto.getParent().replace(".", "//") + genDto.getPackgeName()
+                        + "/" + tableInfo.getEntityName() + "Dto" + StringPool.DOT_JAVA;
             }
         });
 
-        cfg.setFileOutConfigList(focList);*/
+        focListDto.add(new FileOutConfig(templateQueryDtoPath) {
+            @Override
+            public String outputFile(TableInfo tableInfo) {
+                // 自定义输出文件名 ， 如果你 Entity 设置了前后缀、此处注意 xml 的名称会跟着发生变化！！
+                return genDto.getProjectPath() + "/src/main/java/"  + genDto.getParent().replace(".", "//") + genDto.getPackgeName()
+                        + "/" + tableInfo.getEntityName() + "QueryDto" + StringPool.DOT_JAVA;
+            }
+        });
+
+        cfg.setFileOutConfigList(focListDto);
         return cfg;
     }
 
