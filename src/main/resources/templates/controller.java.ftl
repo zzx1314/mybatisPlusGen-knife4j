@@ -49,32 +49,35 @@ class ${table.controllerName}<#if superControllerClass??>:${superControllerClass
 
     @ApiOperation(value = "新增${table.comment!}")
     @PostMapping("save")
-    public int add(@RequestBody ${entity} ${entity?uncap_first}){
-        return ${(table.serviceName?substring(1))?uncap_first}.add(${entity?uncap_first});
+    public R add(@RequestBody ${entity} ${entity?uncap_first}){
+        ${(table.serviceName?substring(1))?uncap_first}.add(${entity?uncap_first});
+        return R.ok();
     }
 
     @ApiOperation(value = "删除${table.comment!}")
     @DeleteMapping("{id}")
     public int delete(@PathVariable("id") Long id){
-        return ${(table.serviceName?substring(1))?uncap_first}.delete(id);
+        ${(table.serviceName?substring(1))?uncap_first}.delete(id);
+        return R.ok();
     }
 
     @ApiOperation(value = "更新${table.comment!}")
     @PutMapping("update")
     public int update(@RequestBody ${entity} ${entity?uncap_first}){
-        return ${(table.serviceName?substring(1))?uncap_first}.updateData(${entity?uncap_first});
+        ${(table.serviceName?substring(1))?uncap_first}.updateData(${entity?uncap_first});
+        return R.ok();
     }
 
     @ApiOperation(value = "查询${table.comment!}分页数据")
     @GetMapping("page")
     public IPage<${entity}> findListByPage(Page<${entity}> page){
-        return ${(table.serviceName?substring(1))?uncap_first}.findListByPage(page);
+        return R.ok(${(table.serviceName?substring(1))?uncap_first}.findListByPage(page));
     }
 
     @ApiOperation(value = "id查询${table.comment!}")
     @GetMapping("{id}")
     public ${entity} findById(@PathVariable Long id){
-        return ${(table.serviceName?substring(1))?uncap_first}.findById(id);
+        return R.ok(${(table.serviceName?substring(1))?uncap_first}.findById(id));
     }
 
 }
