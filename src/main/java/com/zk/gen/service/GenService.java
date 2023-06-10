@@ -47,7 +47,10 @@ public class GenService {
         // 公共父类
         // 写于父类中的公共字段
         strategy.setInclude(genDto.getTableName());
-        strategy.setControllerMappingHyphenStyle(true);
+        // // 配置驼峰转连字符
+        strategy.setControllerMappingHyphenStyle(false);
+        // 配置 rest 风格的控制器（@RestController）
+        strategy.setRestControllerStyle(true);
         mpg.setStrategy(strategy);
         mpg.setTemplateEngine(new FreemarkerTemplateEngine());
         mpg.execute();
@@ -114,6 +117,7 @@ public class GenService {
         pc.setServiceImpl(packgeName + ".service.impl");
         pc.setMapper(packgeName + ".mapper");
         pc.setXml(packgeName + ".mapper");
+        pc.setModuleName(packgeName);
         return pc;
     }
 
@@ -132,7 +136,7 @@ public class GenService {
         // 如果模板引擎是 freemarker
         String templatePath = "/templates/mapper.xml.ftl";
 
-        // 自定义输出配置
+        /*// 自定义输出配置
         List<FileOutConfig> focList = new ArrayList<>();
         // 自定义配置会被优先输出
         focList.add(new FileOutConfig(templatePath) {
@@ -144,7 +148,7 @@ public class GenService {
             }
         });
 
-        cfg.setFileOutConfigList(focList);
+        cfg.setFileOutConfigList(focList);*/
         return cfg;
     }
 

@@ -1,5 +1,6 @@
 package ${package.Controller};
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +26,6 @@ import ${superControllerClassPackage};
  * <p>
  * ${table.comment!} 前端控制器
  * </p>
- *
  * @author ${author}
  * @since ${date}
  */
@@ -43,14 +43,12 @@ class ${table.controllerName}<#if superControllerClass??>:${superControllerClass
 <#else>public class ${table.controllerName} {
 </#if>
 
-    private Logger log = LoggerFactory.getLogger(getClass());
-
     @Resource
     private ${table.serviceName} ${(table.serviceName?substring(1))?uncap_first};
 
 
     @ApiOperation(value = "新增${table.comment!}")
-    @PostMapping()
+    @PostMapping("save")
     public int add(@RequestBody ${entity} ${entity?uncap_first}){
         return ${(table.serviceName?substring(1))?uncap_first}.add(${entity?uncap_first});
     }
@@ -62,20 +60,15 @@ class ${table.controllerName}<#if superControllerClass??>:${superControllerClass
     }
 
     @ApiOperation(value = "更新${table.comment!}")
-    @PutMapping()
+    @PutMapping("update")
     public int update(@RequestBody ${entity} ${entity?uncap_first}){
         return ${(table.serviceName?substring(1))?uncap_first}.updateData(${entity?uncap_first});
     }
 
     @ApiOperation(value = "查询${table.comment!}分页数据")
-    @ApiImplicitParams({
-        @ApiImplicitParam(name = "page", value = "页码"),
-        @ApiImplicitParam(name = "pageCount", value = "每页条数")
-    })
-    @GetMapping()
-    public IPage<${entity}> findListByPage(@RequestParam Integer page,
-                                   @RequestParam Integer pageCount){
-        return ${(table.serviceName?substring(1))?uncap_first}.findListByPage(page, pageCount);
+    @GetMapping("page")
+    public IPage<${entity}> findListByPage(Page<${entity}> page){
+        return ${(table.serviceName?substring(1))?uncap_first}.findListByPage(page);
     }
 
     @ApiOperation(value = "id查询${table.comment!}")

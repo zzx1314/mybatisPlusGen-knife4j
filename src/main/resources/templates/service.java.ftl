@@ -3,6 +3,7 @@ package ${package.Service};
 import ${package.Entity}.${entity};
 import ${superServiceClassPackage};
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
 /**
  * <p>
@@ -20,11 +21,8 @@ public interface ${table.serviceName} extends ${superServiceClass}<${entity}> {
     /**
      * 查询${table.comment!}分页数据
      *
-     * @param page      页码
-     * @param pageCount 每页条数
-     * @return IPage<${entity}>
      */
-    IPage<${entity}> findListByPage(Integer page, Integer pageCount);
+    IPage<${entity}> findListByPage(Page<${entity}> page);
 
     /**
      * 添加${table.comment!}

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 
 /**
  * <p>
@@ -26,11 +27,10 @@ open class ${table.serviceImplName} : ${superServiceImplClass}<${table.mapperNam
 public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.mapperName}, ${entity}> implements ${table.serviceName} {
 
     @Override
-    public  IPage<${entity}> findListByPage(Integer page, Integer pageCount){
-        IPage<${entity}> wherePage = new Page<>(page, pageCount);
-        ${entity} where = new ${entity}();
-
-        return   baseMapper.selectPage(wherePage, Wrappers.query(where));
+    public  IPage<${entity}> findListByPage(Page<${entity}> page){
+        LambdaQueryWrapper query = Wrappers.lambdaQuery(${entity}.class);
+        IPage iPage = baseMapper.selectPage(page, query);
+        return iPage;
     }
 
     @Override
