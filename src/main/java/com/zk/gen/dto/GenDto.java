@@ -10,7 +10,7 @@ public class GenDto {
     @ApiModelProperty(value = "表名")
     private String tableName;
 
-    @ApiModelProperty(value = "数据库连接", example = "jdbc:mysql://192.168.0.103:3306/th?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai")
+    @ApiModelProperty(value = "数据库连接", example = "jdbc:mysql://ip地址:3306/数据库?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai")
     private String dbUrl;
 
 
