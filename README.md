@@ -6,6 +6,7 @@
 3、浏览器点击 http://localhost:9527/doc.html
 ```
 
-![codeGen](./img/codeGen.png)
+![index](https://github.com/zzx131/mybatisPlusGen-knife4j/blob/master/img/index.png)
 
-![index](./img/index.png)
+![codeGen](https://github.com/zzx131/mybatisPlusGen-knife4j/blob/master/img/codeGen.png)
+
