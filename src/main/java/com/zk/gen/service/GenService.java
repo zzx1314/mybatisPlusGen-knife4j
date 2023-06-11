@@ -1,21 +1,18 @@
 package com.zk.gen.service;
 
-import com.baomidou.mybatisplus.core.toolkit.StringPool;
-import com.baomidou.mybatisplus.core.toolkit.StringUtils;
-import com.baomidou.mybatisplus.generator.AutoGenerator;
-import com.baomidou.mybatisplus.generator.InjectionConfig;
-import com.baomidou.mybatisplus.generator.config.*;
-import com.baomidou.mybatisplus.generator.config.converts.MySqlTypeConvert;
-import com.baomidou.mybatisplus.generator.config.po.TableInfo;
-import com.baomidou.mybatisplus.generator.config.rules.DbColumnType;
-import com.baomidou.mybatisplus.generator.config.rules.IColumnType;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.generator.FastAutoGenerator;
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.generator.config.rules.DateType;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
+import com.baomidou.mybatisplus.generator.fill.Column;
 import com.zk.gen.dto.GenDto;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 public class GenService {
@@ -24,142 +21,99 @@ public class GenService {
      */
     public void genCode(GenDto genDto){
         // 代码生成器
-        AutoGenerator mpg = new AutoGenerator();
+        FastAutoGenerator.create(genDto.getDbUrl(), genDto.getUserName(), genDto.getPassword())
+                // 全局配置
+                .globalConfig( builder -> {
+                    String projectPath = System.getProperty("user.dir");
+                    if (StringUtils.isEmpty(genDto.getProjectPath())){
+                        genDto.setProjectPath(projectPath);
+                    }
+                    builder
+                            .enableSwagger() // 是否启用swagger注解
+                            .author("zzx") // 作者名称
+                            .dateType(DateType.ONLY_DATE) // 时间策略
+                            .commentDate("yyyy-MM-dd") // 注释日期
+                            .outputDir(genDto.getProjectPath()) // 输出目录
+                            .fileOverride() // 覆盖已生成文件
+                            .enableSwagger() // 生成swagger
+                            .disableOpenDir(); // 生成后禁止打开所生成的系统目录
+                })
+                // 包配置
+                .packageConfig( builder -> {
+                    String packgeName = genDto.getPackgeName();
+                    builder
+                            .parent(genDto.getParent()) // 父包名
+                            .moduleName(packgeName) // 模块包名
+                            .entity(packgeName+ ".domain") // 实体类包名
+                            .service(packgeName + ".service") // service包名
+                            .serviceImpl(packgeName + ".service.impl") // serviceImpl包名
+                            .mapper(packgeName + ".mapper") // mapper包名
+                            .controller(packgeName +".controller") // controller包名
+                            .other(packgeName); // 自定义包名
 
-        mpg.setGlobalConfig(getGlobalCon(genDto));
-        mpg.setDataSource(getDfon(genDto));
+                })
+                // 策略配置
+                .strategyConfig(( builder) -> {
+                    builder
+                            .addInclude(genDto.getTableName()) // 表匹配
 
-        mpg.setPackageInfo(getPackConfig(genDto));
-        mpg.setCfg(getInjectionConfig(genDto));
+                            // Entity 策略配置
+                            .entityBuilder()
+                            .enableLombok() // 开启lombok
+                            .enableChainModel() // 链式
+                            .enableRemoveIsPrefix() // 开启boolean类型字段移除is前缀
+                            .enableTableFieldAnnotation() //开启生成实体时生成的字段注解
+                            .logicDeleteColumnName("is_deleted") // 逻辑删除数据库中字段名
+                            .logicDeletePropertyName("isDeleted") // 逻辑删除实体类中的字段名
+                            .naming(NamingStrategy.underline_to_camel) // 表名 下划线 -》 驼峰命名
+                            .columnNaming(NamingStrategy.underline_to_camel) // 字段名 下划线 -》 驼峰命名
+                            .idType(IdType.AUTO) // 主键生成策略 雪花算法生成id
+                            .formatFileName("%s") // Entity 文件名称
+                            .addTableFills(new Column("create_time", FieldFill.INSERT)) // 表字段填充
+                            .addTableFills(new Column("update_time", FieldFill.INSERT_UPDATE)) // 表字段填充
+
+                            // Controller 策略配置
+                            .controllerBuilder()
+                            .enableRestStyle() // 开启@RestController
+                            .formatFileName("%sController") // Controller 文件名称
+
+                            // Service 策略配置
+                            .serviceBuilder()
+                            .formatServiceFileName("%sService") // Service 文件名称
+                            .formatServiceImplFileName("%sServiceImpl") // ServiceImpl 文件名称
+
+                            // Mapper 策略配置
+                            .mapperBuilder()
+                            .enableMapperAnnotation() // 开启@Mapper
+                            .enableBaseColumnList() // 启用 columnList (通用查询结果列)
+                            .enableBaseResultMap() // 启动resultMap
+                            .formatMapperFileName("%sMapper") // Mapper 文件名称
+                            .formatXmlFileName("%sMapper"); // Xml 文件名称
+                })
+                // 注入配置
+                .injectionConfig((scanner, builder) -> {
+                    // 自定义vo，ro，qo等数据模型
+                    Map<String, String> customFile = new HashMap<>();
+                    customFile.put("VO.java", "templates/model/vo.java.vm");
+                    customFile.put("RO.java", "templates/model/ro.java.vm");
+                    customFile.put("QO.java", "templates/model/qo.java.vm");
+                    customFile.put("URO.java", "templates/model/uro.java.vm");
+                    // 自定义MapStruct
+                    customFile.put("Converter.java", "templates/converter/converter.java.vm");
+
+                    // 自定义配置对象
+                    Map<String, Object> customMap = new HashMap<>();
+                    customMap.put("vo", "VO");
+                    customMap.put("ro", "RO");
+                    customMap.put("qo", "QO");
+                    customMap.put("uro", "URO");
+                    builder
+                            .customFile(customFile) // 自定义模板
+                            .customMap(customMap); // 自定义map
+                })
+                .templateEngine(new FreemarkerTemplateEngine()).execute();;
 
 
-        // 配置模板
-        TemplateConfig templateConfig = new TemplateConfig();
-        mpg.setTemplate(templateConfig);
-
-        // 策略配置
-        StrategyConfig strategy = new StrategyConfig();
-        strategy.setNaming(NamingStrategy.underline_to_camel);
-        strategy.setColumnNaming(NamingStrategy.underline_to_camel);
-        strategy.setEntityLombokModel(true);
-        strategy.setRestControllerStyle(true);
-
-        // 公共父类
-        // 写于父类中的公共字段
-        strategy.setInclude(genDto.getTableName());
-        // // 配置驼峰转连字符
-        strategy.setControllerMappingHyphenStyle(false);
-        // 配置 rest 风格的控制器（@RestController）
-        strategy.setRestControllerStyle(true);
-        mpg.setStrategy(strategy);
-        mpg.setTemplateEngine(new FreemarkerTemplateEngine());
-        mpg.execute();
-
-    }
-
-    /**
-     * 全局配置
-     */
-    private GlobalConfig getGlobalCon(GenDto genDto){
-        // 全局配置
-        GlobalConfig gc = new GlobalConfig();
-        String projectPath = System.getProperty("user.dir");
-        if (StringUtils.isNotEmpty(genDto.getProjectPath())){
-            projectPath = genDto.getProjectPath();
-        }else {
-            genDto.setProjectPath(projectPath);
-        }
-        gc.setOutputDir(projectPath + "/src/main/java");
-        gc.setAuthor("zzx");
-        gc.setOpen(false);
-        gc.setFileOverride(true);//是否覆盖文件
-        gc.setBaseResultMap(true); // xml resultmap
-        gc.setBaseColumnList(true); // xml columlist
-        gc.setSwagger2(true);  //实体属性 Swagger2 注解
-
-        return gc;
-    }
-
-
-    /**
-     * 数据源配置
-     */
-    private DataSourceConfig getDfon(GenDto genDto){
-        DataSourceConfig dsc = new DataSourceConfig();
-        dsc.setUrl(genDto.getDbUrl());
-        dsc.setDriverName(genDto.getDriverName());
-        dsc.setUsername(genDto.getUserName());
-        dsc.setPassword(genDto.getPassword());
-        dsc.setTypeConvert(new MySqlTypeConvert(){
-            // 自定义数据库表字段类型转换【可选】
-            @Override
-            public IColumnType processTypeConvert(GlobalConfig globalConfig, String fieldType) {
-                if ( fieldType.toLowerCase().contains( "datetime" ) ) {
-                    return DbColumnType.DATE;
-                }
-                return super.processTypeConvert(globalConfig, fieldType);
-            }
-
-        });
-        return dsc;
-    }
-
-    /**
-     * 包配置
-     */
-    private PackageConfig getPackConfig(GenDto genDto){
-        PackageConfig pc = new PackageConfig();
-        String packgeName = genDto.getPackgeName();
-        pc.setParent(genDto.getParent());
-        pc.setController(packgeName +".controller");
-        pc.setEntity(packgeName+ ".domain");
-        pc.setService(packgeName + ".service");
-        pc.setServiceImpl(packgeName + ".service.impl");
-        pc.setMapper(packgeName + ".mapper");
-        pc.setXml(packgeName + ".mapper");
-        pc.setModuleName(packgeName);
-        return pc;
-    }
-
-    /**
-     * 自定义配置
-     */
-    private InjectionConfig getInjectionConfig(GenDto genDto){
-        // 自定义配置
-        InjectionConfig cfg = new InjectionConfig() {
-            @Override
-            public void initMap() {
-                // to do nothing
-            }
-        };
-
-        // 如果模板引擎是 freemarker
-        String templateDtoPath = "/templates/dto.xml.ftl";
-        String templateQueryDtoPath = "/templates/queryDto.xml.ftl";
-
-        // 自定义输出配置
-        List<FileOutConfig> focListDto = new ArrayList<>();
-        // 自定义配置会被优先输出
-        focListDto.add(new FileOutConfig(templateDtoPath) {
-            @Override
-            public String outputFile(TableInfo tableInfo) {
-                // 自定义输出文件名 ， 如果你 Entity 设置了前后缀、此处注意 xml 的名称会跟着发生变化！！
-                return genDto.getProjectPath() + "/src/main/java/"  + genDto.getParent().replace(".", "//") + genDto.getPackgeName()
-                        + "/" + tableInfo.getEntityName() + "Dto" + StringPool.DOT_JAVA;
-            }
-        });
-
-        focListDto.add(new FileOutConfig(templateQueryDtoPath) {
-            @Override
-            public String outputFile(TableInfo tableInfo) {
-                // 自定义输出文件名 ， 如果你 Entity 设置了前后缀、此处注意 xml 的名称会跟着发生变化！！
-                return genDto.getProjectPath() + "/src/main/java/"  + genDto.getParent().replace(".", "//") + genDto.getPackgeName()
-                        + "/" + tableInfo.getEntityName() + "QueryDto" + StringPool.DOT_JAVA;
-            }
-        });
-
-        cfg.setFileOutConfigList(focListDto);
-        return cfg;
     }
 
 
