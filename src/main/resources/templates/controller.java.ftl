@@ -56,27 +56,27 @@ class ${table.controllerName}<#if superControllerClass??>:${superControllerClass
 
     @ApiOperation(value = "删除${table.comment!}")
     @DeleteMapping("{id}")
-    public int delete(@PathVariable("id") Long id){
+    public R delete(@PathVariable("id") Long id){
         ${(table.serviceName?substring(1))?uncap_first}.delete(id);
         return R.ok();
     }
 
     @ApiOperation(value = "更新${table.comment!}")
     @PutMapping("update")
-    public int update(@RequestBody ${entity} ${entity?uncap_first}){
+    public R update(@RequestBody ${entity} ${entity?uncap_first}){
         ${(table.serviceName?substring(1))?uncap_first}.updateData(${entity?uncap_first});
         return R.ok();
     }
 
     @ApiOperation(value = "查询${table.comment!}分页数据")
     @GetMapping("page")
-    public IPage<${entity}> findListByPage(Page<${entity}> page){
+    public R findListByPage(Page<${entity}> page){
         return R.ok(${(table.serviceName?substring(1))?uncap_first}.findListByPage(page));
     }
 
     @ApiOperation(value = "id查询${table.comment!}")
     @GetMapping("{id}")
-    public ${entity} findById(@PathVariable Long id){
+    public R findById(@PathVariable Long id){
         return R.ok(${(table.serviceName?substring(1))?uncap_first}.findById(id));
     }
 

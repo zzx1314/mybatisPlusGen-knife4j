@@ -8,6 +8,7 @@ package ${package.Other}.dto;
     import lombok.EqualsAndHashCode;
     import lombok.experimental.Accessors;
 </#if>
+import ${package.Entity}.${entity};
 
 /**
 * <p>
@@ -25,9 +26,6 @@ package ${package.Other}.dto;
 @EqualsAndHashCode(callSuper = false)
 </#if>
 @Accessors(chain = true)
-</#if>
-<#if swagger>
-    @ApiModel(value="${entity}Dto对象", description="${table.comment!}")
 </#if>
 public class ${entity}Dto extends ${entity} implements Serializable {
 

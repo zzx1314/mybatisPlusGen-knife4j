@@ -1,5 +1,6 @@
-package ${package.Other}.dto;
+package ${package.Other}.query;
 
+import ${package.Entity}.${entity};
 <#list table.importPackages as pkg>
     import ${pkg};
 </#list>
@@ -25,9 +26,6 @@ package ${package.Other}.dto;
 @EqualsAndHashCode(callSuper = false)
 </#if>
 @Accessors(chain = true)
-</#if>
-<#if swagger>
-    @ApiModel(value="${entity}Query对象", description="${table.comment!}")
 </#if>
 public class ${entity}QueryDto extends ${entity} implements Serializable {
 

@@ -3,14 +3,18 @@ package com.zk.gen.service;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.generator.FastAutoGenerator;
 import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.generator.config.OutputFile;
+import com.baomidou.mybatisplus.generator.config.po.TableInfo;
 import com.baomidou.mybatisplus.generator.config.rules.DateType;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
 import com.baomidou.mybatisplus.generator.fill.Column;
+import com.sun.istack.internal.NotNull;
 import com.zk.gen.dto.GenDto;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -92,15 +96,40 @@ public class GenService {
                     // 自定义vo，ro，qo等数据模型
                     Map<String, String> customFile = new HashMap<>();
 //                    customFile.put("VO.java", "templates/vo.java.ftl");
-                    customFile.put("dtp", "templates/queryDto.java.ftl");
-                    customFile.put("dto", "templates/dto.java.ftl");
+                    customFile.put("QueryDto", "templates/queryDto.java.ftl");
+                    customFile.put("Dto", "templates/dto.java.ftl");
 
                     // 自定义配置对象
                     builder.customFile(customFile);// 自定义模板
                 })
-                .templateEngine(new FreemarkerTemplateEngine()).execute();;
+                .templateEngine(new EnFreemarkerTemplateEngine()).execute();;
+    }
 
-
+    /**
+     * 代码生成器支持自定义[DTO\VO等]模版
+     */
+    public final static class EnFreemarkerTemplateEngine extends FreemarkerTemplateEngine {
+        /**
+         * 文件输出路径
+         *
+         * @param customFile 自定义文件map
+         * @param tableInfo  表信息
+         * @param objectMap  对象map
+         */
+        @Override
+        protected void outputCustomFile(@NotNull Map<String, String> customFile, @NotNull TableInfo tableInfo, @NotNull Map<String, Object> objectMap) {
+            // 获取实体类名字
+            String entityName = tableInfo.getEntityName();
+            // 获取other包盘符路径
+            String otherPath = this.getPathInfo(OutputFile.other);
+            // 输出自定义java模板
+            customFile.forEach((key, value) -> {
+                // 输出路径
+                String fileName = otherPath + File.separator + key.toLowerCase() + File.separator + entityName + key + ".java";
+                // 输出velocity的java模板
+                this.outputFile(new File(fileName), objectMap, value);
+            });
+        }
     }
 
 
