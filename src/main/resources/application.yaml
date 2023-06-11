@@ -16,3 +16,10 @@ knife4j:
         api-rule: package
         api-rule-resources:
           - com.zk.gen
+
+spring:
+  datasource:
+    url: jdbc:mysql://192.168.10.148:3306/th_pure?useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+    username: root
+    password: Tips@123456
+    driver-class-name: com.mysql.cj.jdbc.Driver

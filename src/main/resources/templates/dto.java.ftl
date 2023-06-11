@@ -1,4 +1,4 @@
-package ${package.pathInfo};
+package ${package.Other}.dto;
 
 <#list table.importPackages as pkg>
     import ${pkg};
@@ -26,7 +26,7 @@ package ${package.pathInfo};
 </#if>
 @Accessors(chain = true)
 </#if>
-<#if swagger2>
+<#if swagger>
     @ApiModel(value="${entity}Dto对象", description="${table.comment!}")
 </#if>
 public class ${entity}Dto extends ${entity} implements Serializable {

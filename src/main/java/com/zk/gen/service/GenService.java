@@ -28,12 +28,11 @@ public class GenService {
                     if (StringUtils.isEmpty(genDto.getProjectPath())){
                         genDto.setProjectPath(projectPath);
                     }
-                    builder
-                            .enableSwagger() // 是否启用swagger注解
+                    builder.enableSwagger() // 是否启用swagger注解
                             .author("zzx") // 作者名称
                             .dateType(DateType.ONLY_DATE) // 时间策略
                             .commentDate("yyyy-MM-dd") // 注释日期
-                            .outputDir(genDto.getProjectPath()) // 输出目录
+                            .outputDir(genDto.getProjectPath() + "/src/main/java") // 输出目录
                             .fileOverride() // 覆盖已生成文件
                             .enableSwagger() // 生成swagger
                             .disableOpenDir(); // 生成后禁止打开所生成的系统目录
@@ -41,21 +40,20 @@ public class GenService {
                 // 包配置
                 .packageConfig( builder -> {
                     String packgeName = genDto.getPackgeName();
-                    builder
-                            .parent(genDto.getParent()) // 父包名
+                    builder.parent(genDto.getParent()) // 父包名
                             .moduleName(packgeName) // 模块包名
                             .entity(packgeName+ ".domain") // 实体类包名
                             .service(packgeName + ".service") // service包名
                             .serviceImpl(packgeName + ".service.impl") // serviceImpl包名
                             .mapper(packgeName + ".mapper") // mapper包名
                             .controller(packgeName +".controller") // controller包名
+                            .xml(packgeName + ".mapper")
                             .other(packgeName); // 自定义包名
 
                 })
                 // 策略配置
                 .strategyConfig(( builder) -> {
-                    builder
-                            .addInclude(genDto.getTableName()) // 表匹配
+                    builder.addInclude(genDto.getTableName()) // 表匹配
 
                             // Entity 策略配置
                             .entityBuilder()
@@ -67,7 +65,6 @@ public class GenService {
                             .logicDeletePropertyName("isDeleted") // 逻辑删除实体类中的字段名
                             .naming(NamingStrategy.underline_to_camel) // 表名 下划线 -》 驼峰命名
                             .columnNaming(NamingStrategy.underline_to_camel) // 字段名 下划线 -》 驼峰命名
-                            .idType(IdType.AUTO) // 主键生成策略 雪花算法生成id
                             .formatFileName("%s") // Entity 文件名称
                             .addTableFills(new Column("create_time", FieldFill.INSERT)) // 表字段填充
                             .addTableFills(new Column("update_time", FieldFill.INSERT_UPDATE)) // 表字段填充
@@ -91,25 +88,15 @@ public class GenService {
                             .formatXmlFileName("%sMapper"); // Xml 文件名称
                 })
                 // 注入配置
-                .injectionConfig((scanner, builder) -> {
+                .injectionConfig( builder -> {
                     // 自定义vo，ro，qo等数据模型
                     Map<String, String> customFile = new HashMap<>();
-                    customFile.put("VO.java", "templates/model/vo.java.vm");
-                    customFile.put("RO.java", "templates/model/ro.java.vm");
-                    customFile.put("QO.java", "templates/model/qo.java.vm");
-                    customFile.put("URO.java", "templates/model/uro.java.vm");
-                    // 自定义MapStruct
-                    customFile.put("Converter.java", "templates/converter/converter.java.vm");
+//                    customFile.put("VO.java", "templates/vo.java.ftl");
+                    customFile.put("dtp", "templates/queryDto.java.ftl");
+                    customFile.put("dto", "templates/dto.java.ftl");
 
                     // 自定义配置对象
-                    Map<String, Object> customMap = new HashMap<>();
-                    customMap.put("vo", "VO");
-                    customMap.put("ro", "RO");
-                    customMap.put("qo", "QO");
-                    customMap.put("uro", "URO");
-                    builder
-                            .customFile(customFile) // 自定义模板
-                            .customMap(customMap); // 自定义map
+                    builder.customFile(customFile);// 自定义模板
                 })
                 .templateEngine(new FreemarkerTemplateEngine()).execute();;
 
