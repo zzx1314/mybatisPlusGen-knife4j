@@ -95,7 +95,7 @@ public class GenService {
                 .injectionConfig( builder -> {
                     // 自定义vo，ro，qo等数据模型
                     Map<String, String> customFile = new HashMap<>();
-//                    customFile.put("VO.java", "templates/vo.java.ftl");
+                    customFile.put("Vo", "templates/vo.java.ftl");
                     customFile.put("QueryDto", "templates/queryDto.java.ftl");
                     customFile.put("Dto", "templates/dto.java.ftl");
 
