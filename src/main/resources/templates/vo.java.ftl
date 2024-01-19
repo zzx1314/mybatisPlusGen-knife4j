@@ -1,4 +1,4 @@
-package ${package.Other}.vo;
+package ${package.Parent}.entity.vo;
 
 <#list table.importPackages as pkg>
     import ${pkg};

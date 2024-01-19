@@ -34,6 +34,19 @@
             </#list>
             ${table.fieldNames}
         </sql>
-
     </#if>
+    <select id="getPageVoByQueryDto" resultType="${package.Parent}.entity.vo.${entity}Vo">
+        select <include refid="Base_Column_List"></include>
+        from ${table.name}
+        <where>
+            is_deleted = 0
+            <#list table.fields as field>
+                <#if field.keyFlag>
+                    <if test="query.${field.propertyName} != null">
+                        and ${field.name} = \#\{query.${field.propertyName},  jdbcType="INTEGER"}
+                    </if>
+                </#if>
+            </#list>
+        </where>
+    </select>
 </mapper>

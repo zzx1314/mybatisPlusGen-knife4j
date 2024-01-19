@@ -1,14 +1,12 @@
-package ${package.Other}.dto;
+package ${package.Parent}.entity.dto;
 
-<#list table.importPackages as pkg>
-    import ${pkg};
-</#list>
 <#if entityLombokModel>
     import lombok.Data;
     import lombok.EqualsAndHashCode;
     import lombok.experimental.Accessors;
 </#if>
 import ${package.Entity}.${entity};
+import java.io.Serializable;
 
 /**
 * <p>

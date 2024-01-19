@@ -44,15 +44,26 @@ public class GenService {
                 // 包配置
                 .packageConfig( builder -> {
                     String packgeName = genDto.getPackgeName();
-                    builder.parent(genDto.getParent()) // 父包名
-                            .moduleName(packgeName) // 模块包名
-                            .entity(packgeName+ ".domain") // 实体类包名
-                            .service(packgeName + ".service") // service包名
-                            .serviceImpl(packgeName + ".service.impl") // serviceImpl包名
-                            .mapper(packgeName + ".mapper") // mapper包名
-                            .controller(packgeName +".controller") // controller包名
-                            .xml(packgeName + ".mapper")
-                            .other(packgeName); // 自定义包名
+                    if (!StringUtils.isEmpty(packgeName)){
+                        builder.parent(genDto.getParent()) // 父包名
+                                .moduleName(packgeName) // 模块包名
+                                .entity("entity") // 实体类包名
+                                .service("service") // service包名
+                                .serviceImpl("service.impl") // serviceImpl包名
+                                .mapper("mapper") // mapper包名
+                                .controller("controller") // controller包名
+                                .xml("mapper")
+                                .other(packgeName); // 自定义包名
+                    } else {
+                        builder.parent(genDto.getParent()) // 父包名
+                                .entity("entity") // 实体类包名
+                                .service("service") // service包名
+                                .serviceImpl("service.impl") // serviceImpl包名
+                                .mapper("mapper") // mapper包名
+                                .controller("controller") // controller包名
+                                .xml("mapper"); // 自定义包名
+                    }
+
 
                 })
                 // 策略配置
@@ -72,6 +83,7 @@ public class GenService {
                             .formatFileName("%s") // Entity 文件名称
                             .addTableFills(new Column("create_time", FieldFill.INSERT)) // 表字段填充
                             .addTableFills(new Column("update_time", FieldFill.INSERT_UPDATE)) // 表字段填充
+                            .addTableFills(new Column("modified_time", FieldFill.INSERT_UPDATE)) // 表字段填充
 
                             // Controller 策略配置
                             .controllerBuilder()
@@ -124,8 +136,16 @@ public class GenService {
             String otherPath = this.getPathInfo(OutputFile.other);
             // 输出自定义java模板
             customFile.forEach((key, value) -> {
-                // 输出路径
-                String fileName = otherPath + File.separator + key.toLowerCase() + File.separator + entityName + key + ".java";
+                String fileName = "";
+                // 去除other路径
+                String resultPath = otherPath.substring(0, otherPath.lastIndexOf(File.separator));
+                if ("QueryDto".equals(key)){
+                    fileName = resultPath + File.separator + "entity" + File.separator + "dto" + File.separator+ key.toLowerCase() + File.separator + entityName + key + ".java";
+                } else if ("Dto".equals(key) || "Vo".equals(key)){
+                    fileName = resultPath + File.separator + "entity" + File.separator + key.toLowerCase() + File.separator + entityName + key + ".java";
+                } else{
+                    fileName = resultPath + File.separator + key.toLowerCase() + File.separator + entityName + key + ".java";
+                }
                 // 输出velocity的java模板
                 this.outputFile(new File(fileName), objectMap, value);
             });

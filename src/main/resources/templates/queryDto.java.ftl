@@ -1,9 +1,7 @@
-package ${package.Other}.query;
+package ${package.Parent}.entity.dto.querydto;
 
 import ${package.Entity}.${entity};
-<#list table.importPackages as pkg>
-    import ${pkg};
-</#list>
+import java.io.Serializable;
 <#if entityLombokModel>
     import lombok.Data;
     import lombok.EqualsAndHashCode;
