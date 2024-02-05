@@ -43,7 +43,7 @@
             <#list table.fields as field>
                 <#if field.keyFlag>
                     <if test="query.${field.propertyName} != null">
-                        and ${field.name} = \#\{query.${field.propertyName},  jdbcType="INTEGER"}
+                        and ${field.name} = <#noparse>#{</#noparse>query.${field.propertyName},jdbcType=Integer<#noparse>}</#noparse>
                     </if>
                 </#if>
             </#list>
