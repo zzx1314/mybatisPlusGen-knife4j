@@ -25,7 +25,8 @@ public class GenService {
      */
     public void genCode(GenDto genDto){
         // 代码生成器
-        FastAutoGenerator.create(genDto.getDbUrl(), genDto.getUserName(), genDto.getPassword())
+        String dbUrl = "jdbc:mysql://"+genDto.getIp()+":3306/"+genDto.getDbName()+"?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai";
+        FastAutoGenerator.create(dbUrl, genDto.getUserName(), genDto.getPassword())
                 // 全局配置
                 .globalConfig( builder -> {
                     String projectPath = System.getProperty("user.dir");

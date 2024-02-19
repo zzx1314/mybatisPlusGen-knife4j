@@ -7,29 +7,31 @@ import lombok.Data;
 @Data
 @ApiModel(value = "配置")
 public class GenDto {
-    @ApiModelProperty(value = "表名")
+    @ApiModelProperty(position = 0,value = "表名")
     private String tableName;
 
-    @ApiModelProperty(value = "数据库连接", example = "jdbc:mysql://ip地址:3306/数据库?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai")
-    private String dbUrl;
+    @ApiModelProperty(position = 1,value = "ip地址")
+    private String ip;
 
+    @ApiModelProperty(position = 2,value = "数据库名称")
+    private String dbName;
 
-    @ApiModelProperty(value = "驱动名称", example = "com.mysql.cj.jdbc.Driver")
+    @ApiModelProperty(position = 3,value = "驱动名称", example = "com.mysql.cj.jdbc.Driver")
     private String driverName;
 
-    @ApiModelProperty(value = "用户名", example = "root")
+    @ApiModelProperty(position = 4,value = "用户名", example = "root")
     private String userName;
 
-    @ApiModelProperty(value = "密码", example = "123456")
+    @ApiModelProperty(position = 5,value = "密码", example = "123456")
     private String password;
 
-    @ApiModelProperty(value = "包名")
+    @ApiModelProperty(position = 6,value = "包名")
     private String packgeName;
 
-    @ApiModelProperty(value = "前缀", example = "com.superred.th.upms.biz")
+    @ApiModelProperty(position = 7,value = "前缀", example = "com.superred.th.upms.biz")
     private String parent;
 
-    @ApiModelProperty(value = "项目位置")
+    @ApiModelProperty(position = 8,value = "项目位置")
     private String projectPath;
 
 }
