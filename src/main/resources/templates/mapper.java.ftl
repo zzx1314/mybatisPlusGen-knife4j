@@ -4,6 +4,7 @@ import ${package.Entity}.${entity};
 import ${superMapperClassPackage};
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import ${package.Parent}.entity.dto.querydto.${entity}QueryDto;
+import ${package.Parent}.entity.vo.${entity}Vo;
 <#if mapperAnnotation>
     import org.apache.ibatis.annotations.Mapper;
     import org.apache.ibatis.annotations.Param;
