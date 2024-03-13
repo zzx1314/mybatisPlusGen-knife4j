@@ -9,6 +9,8 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import ${package.Parent}.entity.vo.${entity}Vo;
+import  ${package.Parent}.entity.dto.querydto.${entity}QueryDto;
 
 /**
  * <p>
@@ -31,6 +33,11 @@ public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.m
         LambdaQueryWrapper query = Wrappers.lambdaQuery(${entity}.class);
         IPage iPage = baseMapper.selectPage(page, query);
         return iPage;
+    }
+
+    @Override
+    public IPage<${entity}Vo> findListVoByPage(Page<${entity}Vo> page, ${entity}QueryDto queryDto) {
+        return baseMapper.getPageVoByQueryDto(page, queryDto);
     }
 
     @Override

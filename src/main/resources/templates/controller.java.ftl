@@ -12,6 +12,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.superred.th.common.core.utils.R;
+import ${package.Parent}.entity.vo.${entity}Vo;
+import  ${package.Parent}.entity.dto.querydto.${entity}QueryDto;
 
 import javax.annotation.Resource;
 <#if restControllerStyle>
@@ -71,8 +73,8 @@ class ${table.controllerName}<#if superControllerClass??>:${superControllerClass
 
     @ApiOperation(value = "查询${table.comment!}分页数据")
     @GetMapping("page")
-    public R findListByPage(Page<${entity}> page){
-        return R.ok(${(table.serviceName?substring(1))?uncap_first}.findListByPage(page));
+    public R findListByPage(Page<${entity}Vo> page,${entity}QueryDto queryDto){
+        return R.ok(${(table.serviceName?substring(1))?uncap_first}.findListVoByPage(page, queryDto));
     }
 
     @ApiOperation(value = "id查询${table.comment!}")

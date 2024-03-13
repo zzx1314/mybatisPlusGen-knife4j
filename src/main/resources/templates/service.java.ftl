@@ -4,6 +4,8 @@ import ${package.Entity}.${entity};
 import ${superServiceClassPackage};
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import ${package.Parent}.entity.vo.${entity}Vo;
+import  ${package.Parent}.entity.dto.querydto.${entity}QueryDto;
 
 /**
  * <p>
@@ -23,6 +25,11 @@ public interface ${table.serviceName} extends ${superServiceClass}<${entity}> {
      *
      */
     IPage<${entity}> findListByPage(Page<${entity}> page);
+
+    /**
+    * 通过查询条件查询数据
+    */
+    IPage<${entity}Vo> findListVoByPage(Page<${entity}Vo> page, ${entity}QueryDto queryDto);
 
     /**
      * 添加${table.comment!}
