@@ -35,7 +35,7 @@ public class GenService {
                     }
                     builder.enableSwagger() // 是否启用swagger注解
                             .author("zzx") // 作者名称
-                            .dateType(DateType.ONLY_DATE) // 时间策略
+                            .dateType(DateType.TIME_PACK) // 时间策略
                             .commentDate("yyyy-MM-dd") // 注释日期
                             .outputDir(genDto.getProjectPath() + "/src/main/java") // 输出目录
                             .fileOverride() // 覆盖已生成文件
