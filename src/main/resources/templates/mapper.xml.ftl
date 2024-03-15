@@ -55,7 +55,11 @@
                 </#if>
                 <#if (field.name != "create_time") || (field.name != "modified_time") || (field.name != "is_deleted") || (field.name != "id")>
                     <if test="query.${field.propertyName} != null">
-                        and ${table.name}.${field.name} = <#noparse>#{</#noparse>query.${field.propertyName} <#noparse>}</#noparse>
+                        <#if field?bean.getPropertyType() == "String">
+                            and ${table.name}.${field.name}  LIKE CONCAT('%',<#noparse>#{</#noparse>query.${field.propertyName} <#noparse>}</#noparse>,'%')
+                        <#else>
+                            and ${table.name}.${field.name} = <#noparse>#{</#noparse>query.${field.propertyName} <#noparse>}</#noparse>
+                        </#if>
                     </if>
                 </#if>
             </#list>
