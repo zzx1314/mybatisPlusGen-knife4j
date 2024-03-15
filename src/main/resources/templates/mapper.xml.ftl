@@ -39,9 +39,9 @@
         select
         <#list table.fields as field, index>
             <#if index lt table.fields?size - 1 || index == 0>
-                ${table.name}.${field.name},
+                ${table.entityName?uncap_first}.${field.name},
             <#else>
-                ${table.name}.${field.name}
+                ${table.entityName?uncap_first}.${field.name}
             </#if>
         </#list>
         from ${table.name} as ${table.entityName?uncap_first}
