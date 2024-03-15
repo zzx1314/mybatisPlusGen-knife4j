@@ -44,21 +44,21 @@
                 ${table.name}.${field.name}
             </#if>
         </#list>
-        from ${table.name} as ${table.name}
+        from ${table.name} as ${table.entityName?uncap_first}
         <where>
-            ${table.name}.is_deleted = 0
+            ${table.entityName?uncap_first}.is_deleted = 0
             <#list table.fields as field>
                 <#if field.keyFlag>
                     <if test="query.${field.propertyName} != null">
-                        and ${table.name}.${field.name} = <#noparse>#{</#noparse>query.${field.propertyName},jdbcType=Integer<#noparse>}</#noparse>
+                        and ${table.entityName?uncap_first}.${field.name} = <#noparse>#{</#noparse>query.${field.propertyName},jdbcType=Integer<#noparse>}</#noparse>
                     </if>
                 </#if>
                 <#if (field.name != "create_time") || (field.name != "modified_time") || (field.name != "is_deleted") || (field.name != "id")>
                     <if test="query.${field.propertyName} != null">
                         <#if field?bean.getPropertyType() == "String">
-                            and ${table.name}.${field.name}  LIKE CONCAT('%',<#noparse>#{</#noparse>query.${field.propertyName} <#noparse>}</#noparse>,'%')
+                            and ${table.entityName?uncap_first}.${field.name}  LIKE CONCAT('%',<#noparse>#{</#noparse>query.${field.propertyName} <#noparse>}</#noparse>,'%')
                         <#else>
-                            and ${table.name}.${field.name} = <#noparse>#{</#noparse>query.${field.propertyName} <#noparse>}</#noparse>
+                            and ${table.entityName?uncap_first}.${field.name} = <#noparse>#{</#noparse>query.${field.propertyName} <#noparse>}</#noparse>
                         </#if>
                     </if>
                 </#if>
