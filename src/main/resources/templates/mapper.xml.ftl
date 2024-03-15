@@ -36,14 +36,26 @@
         </sql>
     </#if>
     <select id="getPageVoByQueryDto" resultType="${package.Parent}.entity.vo.${entity}Vo">
-        select <include refid="Base_Column_List"></include>
-        from ${table.name}
+        select
+        <#list table.fields as field, index>
+            <#if index lt table.fields?size - 1 || index == 0>
+                ${table.name}.${field.name},
+            <#else>
+                ${table.name}.${field.name}
+            </#if>
+        </#list>
+        from ${table.name} as ${table.name}
         <where>
-            is_deleted = 0
+            ${table.name}.is_deleted = 0
             <#list table.fields as field>
                 <#if field.keyFlag>
                     <if test="query.${field.propertyName} != null">
-                        and ${field.name} = <#noparse>#{</#noparse>query.${field.propertyName},jdbcType=Integer<#noparse>}</#noparse>
+                        and ${table.name}.${field.name} = <#noparse>#{</#noparse>query.${field.propertyName},jdbcType=Integer<#noparse>}</#noparse>
+                    </if>
+                </#if>
+                <#if (field.name != "create_time") || (field.name != "modified_time") || (field.name != "is_deleted") || (field.name != "id")>
+                    <if test="query.${field.propertyName} != null">
+                        and ${table.name}.${field.name} = <#noparse>#{</#noparse>query.${field.propertyName} <#noparse>}</#noparse>
                     </if>
                 </#if>
             </#list>
