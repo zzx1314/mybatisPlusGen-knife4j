@@ -37,8 +37,8 @@
     </#if>
     <select id="getPageVoByQueryDto" resultType="${package.Parent}.entity.vo.${entity}Vo">
         select
-        <#list table.fields as field, index>
-            <#if index lt table.fields?size - 1 || index == 0>
+        <#list table.fields as field>
+            <#if field_index lt table.fields?size - 1 || field_index == 0>
                 ${table.entityName?uncap_first}.${field.name},
             <#else>
                 ${table.entityName?uncap_first}.${field.name}
@@ -53,12 +53,12 @@
                         and ${table.entityName?uncap_first}.${field.name} = <#noparse>#{</#noparse>query.${field.propertyName},jdbcType=Integer<#noparse>}</#noparse>
                     </if>
                 </#if>
-                <#if (field.name != "create_time") || (field.name != "modified_time") || (field.name != "is_deleted") || (field.name != "id")>
+                <#if (field.columnName != "create_time") && (field.columnName != "modified_time") && (field.columnName != "is_deleted") && (field.columnName != "id")>
                     <if test="query.${field.propertyName} != null">
-                        <#if field?bean.getPropertyType() == "String">
-                            and ${table.entityName?uncap_first}.${field.name}  LIKE CONCAT('%',<#noparse>#{</#noparse>query.${field.propertyName} <#noparse>}</#noparse>,'%')
+                        <#if field.getPropertyType() == "String">
+                            and ${table.entityName?uncap_first}.${field.name}  LIKE CONCAT('%',<#noparse>#{</#noparse>query.${field.propertyName}<#noparse>}</#noparse>,'%')
                         <#else>
-                            and ${table.entityName?uncap_first}.${field.name} = <#noparse>#{</#noparse>query.${field.propertyName} <#noparse>}</#noparse>
+                            and ${table.entityName?uncap_first}.${field.name} = <#noparse>#{</#noparse>query.${field.propertyName}<#noparse>}</#noparse>
                         </#if>
                     </if>
                 </#if>
