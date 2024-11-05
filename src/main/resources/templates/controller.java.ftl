@@ -53,34 +53,34 @@ class ${table.controllerName}<#if superControllerClass??>:${superControllerClass
     @ApiOperation(value = "新增${table.comment!}")
     @PostMapping("save")
     public R add(@RequestBody ${entity} ${entity?uncap_first}){
-        ${(table.serviceName?substring(1))?uncap_first}.add(${entity?uncap_first});
+        ${table.serviceName?uncap_first}.add(${entity?uncap_first});
         return R.ok();
     }
 
     @ApiOperation(value = "删除${table.comment!}")
     @DeleteMapping("{id}")
     public R delete(@PathVariable("id") Long id){
-        ${(table.serviceName?substring(1))?uncap_first}.delete(id);
+        ${table.serviceName?uncap_first}.delete(id);
         return R.ok();
     }
 
     @ApiOperation(value = "更新${table.comment!}")
     @PutMapping("update")
     public R update(@RequestBody ${entity} ${entity?uncap_first}){
-        ${(table.serviceName?substring(1))?uncap_first}.updateData(${entity?uncap_first});
+        ${table.serviceName?uncap_first}.updateData(${entity?uncap_first});
         return R.ok();
     }
 
     @ApiOperation(value = "查询${table.comment!}分页数据")
     @GetMapping("page")
     public R findListByPage(Page<${entity}Vo> page,${entity}QueryDto queryDto){
-        return R.ok(${(table.serviceName?substring(1))?uncap_first}.findListVoByPage(page, queryDto));
+        return R.ok(${table.serviceName?uncap_first}.findListVoByPage(page, queryDto));
     }
 
     @ApiOperation(value = "id查询${table.comment!}")
     @GetMapping("{id}")
     public R findById(@PathVariable Long id){
-        return R.ok(${(table.serviceName?substring(1))?uncap_first}.findById(id));
+        return R.ok(${table.serviceName?uncap_first}.findById(id));
     }
 
 }
