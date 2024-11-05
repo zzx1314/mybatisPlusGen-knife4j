@@ -47,7 +47,7 @@ class ${table.controllerName}<#if superControllerClass??>:${superControllerClass
 </#if>
 
     @Resource
-    private ${table.serviceName} ${(table.serviceName?substring(1))?uncap_first};
+    private ${table.serviceName} ${table.serviceName?uncap_first};
 
 
     @ApiOperation(value = "新增${table.comment!}")
