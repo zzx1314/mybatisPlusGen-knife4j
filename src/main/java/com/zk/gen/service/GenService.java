@@ -112,6 +112,8 @@ public class GenService {
                     customFile.put("QueryDto", "templates/queryDto.java.ftl");
                     customFile.put("Dto", "templates/dto.java.ftl");
                     customFile.put("ForeApi", "templates/fore_api.ts.ftl");
+                    customFile.put("ForeHook", "templates/fore_hook.tsx.ftl");
+                    customFile.put("ForeIndex", "templates/fore_index.vue.ftl");
 
                     // 自定义配置对象
                     builder.customFile(customFile);// 自定义模板
@@ -148,7 +150,14 @@ public class GenService {
                 } else if ("ForeApi".equals(key)){
                     // 前端api
                     fileName = resultPath + File.separator + "api" + File.separator + entityName.toLowerCase() + ".ts";
-                } else {
+                } else if ("ForeHook".equals(key)) {
+                    // 前端hook
+                    fileName = resultPath + File.separator + "hook" + File.separator + entityName.toLowerCase() + ".tsx";
+                } else if ("ForeIndex".equals(key)){
+                    // 前端index
+                    fileName = resultPath + File.separator + "view" + File.separator + entityName.toLowerCase() + File.separator + "index.vue";
+                }
+                else {
                     fileName = resultPath + File.separator + key.toLowerCase() + File.separator + entityName + key + ".java";
                 }
                 // 输出velocity的java模板
