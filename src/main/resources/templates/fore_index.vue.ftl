@@ -7,8 +7,6 @@ import Search from "@iconify-icons/ep/search";
 import Refresh from "@iconify-icons/ep/refresh";
 import Delete from "@iconify-icons/ep/delete";
 import { PureTableBar } from "@/components/RePureTableBar";
-import Download from "@iconify-icons/ep/download";
-import { hasAuth } from "@/router/utils";
 import Down from "@iconify-icons/ep/arrow-down";
 import Up from "@iconify-icons/ep/arrow-up";
 
@@ -24,25 +22,19 @@ const {
   dataList,
   loading,
   dialogFormVisible,
-  dialogStatusVisible,
   title,
   pagination,
   addForm,
   rules,
   columns,
   buttonClass,
-  resDataList,
   moreCondition,
   onSearch,
   resetForm,
-  handleDesc,
   handleDelete,
   handleSizeChange,
-  handleDevSizeChange,
   handleCurrentChange,
-  handleDevCurrentChange,
   handleSelectionChange,
-  handleDevSelectionChange,
   cancel,
   restartForm,
   submitForm,
@@ -57,9 +49,9 @@ const {
       :model="queryForm"
       class="bg-bg_color w-[99/100] pl-8 pt-4"
     >
-      <el-form-item label="任务名称" prop="name">
+      <el-form-item label="名称" prop="name">
         <el-input
-          v-model="queryForm.taskName"
+          v-model="queryForm.name"
           placeholder="请输入任务名称"
           clearable
           class="!w-[180px]"
@@ -139,7 +131,7 @@ const {
               type="primary"
               :size="size"
               :icon="useRenderIcon(Search)"
-              @click="handleDesc(row, addFormRef)"
+              @click="openDia(row, addFormRef)"
             >
               修改
             </el-button>

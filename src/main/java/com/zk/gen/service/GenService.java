@@ -152,7 +152,7 @@ public class GenService {
                     fileName = resultPath + File.separator + "api" + File.separator + entityName.toLowerCase() + ".ts";
                 } else if ("ForeHook".equals(key)) {
                     // 前端hook
-                    fileName = resultPath + File.separator + "hook" + File.separator + entityName.toLowerCase() + ".tsx";
+                    fileName = resultPath + File.separator + "hook" + File.separator + "hook.tsx";
                 } else if ("ForeIndex".equals(key)){
                     // 前端index
                     fileName = resultPath + File.separator + "view" + File.separator + entityName.toLowerCase() + File.separator + "index.vue";

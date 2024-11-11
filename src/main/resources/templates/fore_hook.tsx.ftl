@@ -2,17 +2,18 @@ import { computed, onMounted, reactive, ref } from "vue";
 import type { PaginationProps } from "@pureadmin/table";
 import type { FormInstance, FormRules } from "element-plus";
 import {
-${entity?uncap_first}Save,
-${entity?uncap_first}Page,
-${entity?uncap_first}Update,
-${entity?uncap_first}Delete
-} from "@/api/${entity}";
+  ${entity?uncap_first}Save,
+  ${entity?uncap_first}Page,
+  ${entity?uncap_first}Update,
+  ${entity?uncap_first}Delete
+} from "@/api/${entity?uncap_first}";
 import { SUCCESS } from "@/api/base";
 import { message } from "@/utils/message";
 
 export function use${entity}() {
   // ----变量定义-----
   const queryForm = reactive({
+    name: "",
     beginTime: "",
     endTime: ""
   });
@@ -21,7 +22,6 @@ export function use${entity}() {
   const loading = ref(true);
   const dialogFormVisible = ref(false);
   const title = ref("");
-
 
   const pagination = reactive<PaginationProps>({
     total: 0,
@@ -35,9 +35,9 @@ export function use${entity}() {
     }
   });
   const rules = reactive<FormRules>({
-     name: [{ required: true, message: "角色名称必填", trigger: "blur" }]
+    name: [{ required: true, message: "角色名称必填", trigger: "blur" }]
   });
-  const devClumns: TableColumnList = [
+  const columns: TableColumnList = [
     {
       type: "selection",
       width: 55,
@@ -49,11 +49,11 @@ export function use${entity}() {
       width: 70
     },
     {
-        label: "操作",
-        fixed: "right",
-        width: 180,
-        slot: "operation"
-     }
+      label: "操作",
+      fixed: "right",
+      width: 180,
+      slot: "operation"
+    }
   ];
   const buttonClass = computed(() => {
     return [
@@ -70,23 +70,21 @@ export function use${entity}() {
   function handleDelete(row) {
     console.log(row);
     ${entity?uncap_first}Delete(row.id).then(res => {
-        if (res.code === SUCCESS) {
-          message("删除成功！", { type: "success" });
-          onSearch();
-        } else {
-          message(res.msg, { type: "error" });
-        }
+      if (res.code === SUCCESS) {
+        message("删除成功！", { type: "success" });
+        onSearch();
+      } else {
+        message(res.msg, { type: "error" });
+      }
     });
   }
 
   function handleSizeChange(val: number) {
-    console.log(`${val} items per page`);
     pagination.pageSize = val;
     onSearch();
   }
 
   function handleCurrentChange(val: number) {
-    console.log(`current page: ${val}`);
     pagination.currentPage = val;
     onSearch();
   }
@@ -94,8 +92,6 @@ export function use${entity}() {
   function handleSelectionChange(val) {
     console.log("handleSelectionChange", val);
   }
-
-
 
   // 查询
   async function onSearch() {
@@ -112,11 +108,11 @@ export function use${entity}() {
     if (query.endTime) {
       query.endTime = query.endTime + " 23:59:59";
     }
-    const { data } = await taskPage(query);
+    const { data } = await ${entity?uncap_first}Page(query);
     dataList.value = data.records;
     pagination.total = data.total;
     setTimeout(() => {
-        loading.value = false;
+      loading.value = false;
     }, 500);
   }
 
@@ -134,11 +130,9 @@ export function use${entity}() {
   // 取消
   function cancel() {
     addForm.value = {
-        id: null,
-        taskName: "",
-        taskType: "",
-        status: ""
+      id: null
     };
+    queryForm.name = "";
     queryForm.beginTime = "";
     queryForm.endTime = "";
     dialogFormVisible.value = false;
@@ -152,8 +146,8 @@ export function use${entity}() {
         console.log(addForm.value);
         if (addForm.value.id) {
           // 修改
-          console.log("修改任务");
-        ${entity?uncap_first}Update(addForm.value).then(res => {
+          console.log("修改");
+          ${entity?uncap_first}Update(addForm.value).then(res => {
             if (res.code === SUCCESS) {
               message("修改成功！", { type: "success" });
               cancel();
@@ -163,8 +157,8 @@ export function use${entity}() {
           });
         } else {
           // 新增
-          console.log("新增任务");
-        ${entity?uncap_first}Save(addForm.value).then(res => {
+          console.log("新增");
+          ${entity?uncap_first}Save(addForm.value).then(res => {
             if (res.code === SUCCESS) {
               message("保存成功！", { type: "success" });
               cancel();
@@ -194,25 +188,19 @@ export function use${entity}() {
     dataList,
     loading,
     dialogFormVisible,
-    dialogStatusVisible,
     title,
     pagination,
     addForm,
     rules,
     columns,
     buttonClass,
-    resDataList,
     moreCondition,
     onSearch,
     resetForm,
-    handleDesc,
     handleDelete,
     handleSizeChange,
-    handleDevSizeChange,
     handleCurrentChange,
-    handleDevCurrentChange,
     handleSelectionChange,
-    handleDevSelectionChange,
     cancel,
     restartForm,
     submitForm,

@@ -11,7 +11,7 @@ import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.superred.th.common.core.utils.R;
+import com.zk.common.code.utis.R;
 import ${package.Parent}.entity.vo.${entity}Vo;
 import  ${package.Parent}.entity.dto.querydto.${entity}QueryDto;
 
