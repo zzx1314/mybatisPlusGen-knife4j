@@ -5,9 +5,8 @@ export function useCollectorBusDevForm() {
   const columnsForm: PlusColumn[] = [
     {
       label: "名称",
-      prop: "collectorId",
+      prop: "name",
       valueType: "copy",
-      tooltip: "由英文或者特殊符号组成",
       formItemProps: {
         style: {
             width: "50%"
