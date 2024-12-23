@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { FormInstance } from "element-plus";
-import { use${entity} } from "@/views/${table.name?split("_")[0]}/${entity}/hook";
+import { use${entity} } from "./hook";
 import { useRenderIcon } from "@/components/ReIcon/src/hooks";
 import Search from "@iconify-icons/ep/search";
 import Refresh from "@iconify-icons/ep/refresh";
