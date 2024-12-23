@@ -35,7 +35,7 @@ export function use${entity}() {
     }
   });
   const rules = reactive<FormRules>({
-    name: [{ required: true, message: "角色名称必填", trigger: "blur" }]
+    name: [{ required: true, message: "称必填", trigger: "blur" }]
   });
   const columns: TableColumnList = [
     {
@@ -93,6 +93,38 @@ export function use${entity}() {
     console.log("handleSelectionChange", val);
   }
 
+  const handleSubmitError = (err: any) => {
+    console.log(err, "err");
+  };
+
+  // 保存
+  const handleSubmit = (values: FieldValues) => {
+    console.log(values, "Submit");
+    if (addForm.value.id) {
+      // 修改
+      console.log("修改");
+      ${entity?uncap_first}Updat(addForm.value).then(res => {
+        if (res.code === SUCCESS) {
+          message("修改成功！", { type: "success" });
+          cancel();
+        } else {
+            message("修改失败！", { type: "error" });
+        }
+      });
+    } else {
+      // 新增
+      console.log("新增");
+      ${entity?uncap_first}Save(addForm.value).then(res => {
+        if (res.code === SUCCESS) {
+          message("保存成功！", { type: "success" });
+          cancel();
+        } else {
+          message(res.msg, { type: "error" });
+        }
+      });
+    }
+  };
+
   // 查询
   async function onSearch() {
     loading.value = true;
@@ -125,7 +157,6 @@ export function use${entity}() {
     if (!formEl) return;
     formEl.resetFields();
     cancel();
-    onSearch();
   };
   // 取消
   function cancel() {
@@ -138,40 +169,6 @@ export function use${entity}() {
     dialogFormVisible.value = false;
     onSearch();
   }
-  // 保存
-  const submitForm = async (formEl: FormInstance | undefined) => {
-    if (!formEl) return;
-    await formEl.validate((valid, fields) => {
-      if (valid) {
-        console.log(addForm.value);
-        if (addForm.value.id) {
-          // 修改
-          console.log("修改");
-          ${entity?uncap_first}Update(addForm.value).then(res => {
-            if (res.code === SUCCESS) {
-              message("修改成功！", { type: "success" });
-              cancel();
-            } else {
-              message("修改失败！", { type: "error" });
-            }
-          });
-        } else {
-          // 新增
-          console.log("新增");
-          ${entity?uncap_first}Save(addForm.value).then(res => {
-            if (res.code === SUCCESS) {
-              message("保存成功！", { type: "success" });
-              cancel();
-            } else {
-              message(res.msg, { type: "error" });
-            }
-          });
-        }
-      } else {
-        console.log("error submit!", fields);
-      }
-    });
-  };
   // 打开弹框
   function openDia(param, formEl) {
     dialogFormVisible.value = true;
@@ -201,6 +198,8 @@ export function use${entity}() {
     handleSizeChange,
     handleCurrentChange,
     handleSelectionChange,
+    handleSubmit,
+    handleSubmitError,
     cancel,
     restartForm,
     submitForm,
