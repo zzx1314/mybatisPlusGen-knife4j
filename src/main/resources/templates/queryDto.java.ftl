@@ -30,5 +30,8 @@ public class ${entity}QueryDto extends ${entity} implements Serializable {
 <#if entitySerialVersionUID>
     private static final long serialVersionUID = 1L;
 </#if>
+   private String beginTime;
+
+   private String endTime;
 
 }
