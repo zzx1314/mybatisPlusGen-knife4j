@@ -1,6 +1,6 @@
 import { computed, onMounted, reactive, ref } from "vue";
 import type { PaginationProps } from "@pureadmin/table";
-import type { FormInstance, FormRules } from "element-plus";
+import type { FormRules } from "element-plus";
 import {
   ${entity?uncap_first}Save,
   ${entity?uncap_first}Page,
@@ -9,6 +9,7 @@ import {
 } from "@/api/${entity?uncap_first}";
 import { SUCCESS } from "@/api/base";
 import { message } from "@/utils/message";
+import type { FieldValues } from "plus-pro-components";
 
 export function use${entity}() {
   // ----变量定义-----
@@ -103,12 +104,12 @@ export function use${entity}() {
     if (addForm.value.id) {
       // 修改
       console.log("修改");
-      ${entity?uncap_first}Updat(addForm.value).then(res => {
+      ${entity?uncap_first}Update(addForm.value).then(res => {
         if (res.code === SUCCESS) {
           message("修改成功！", { type: "success" });
           cancel();
         } else {
-            message("修改失败！", { type: "error" });
+          message("修改失败！", { type: "error" });
         }
       });
     } else {
@@ -202,7 +203,6 @@ export function use${entity}() {
     handleSubmitError,
     cancel,
     restartForm,
-    submitForm,
     openDia
   };
 }

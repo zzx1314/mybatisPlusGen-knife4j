@@ -4,7 +4,6 @@ import { FormInstance } from "element-plus";
 import { use${entity} } from "./hook";
 import { useRenderIcon } from "@/components/ReIcon/src/hooks";
 import Search from "@iconify-icons/ep/search";
-import Refresh from "@iconify-icons/ep/refresh";
 import Delete from "@iconify-icons/ep/delete";
 import { PureTableBar } from "@/components/RePureTableBar";
 import { useCollectorBusDevForm } from "./form";
@@ -13,7 +12,6 @@ defineOptions({
   name: "${entity}"
 });
 
-const formRef = ref();
 const addFormRef = ref<FormInstance>();
 const { columnsForm, columnsQueryForm } = useCollectorBusDevForm();
 
@@ -27,8 +25,6 @@ const {
   addForm,
   rules,
   columns,
-  buttonClass,
-  moreCondition,
   onSearch,
   handleDelete,
   handleSizeChange,
@@ -37,8 +33,6 @@ const {
   handleSubmitError,
   handleSubmit,
   cancel,
-  restartForm,
-  submitForm,
   openDia
 } = use${entity}();
 </script>
@@ -121,7 +115,6 @@ const {
       @confirm-error="handleSubmitError"
       @confirm="handleSubmit"
     />
-
   </div>
 </template>
 
