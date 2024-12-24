@@ -149,8 +149,9 @@ public class GenService {
                 } else if ("Dto".equals(key) || "Vo".equals(key)){
                     fileName = resultPath + File.separator + "entity" + File.separator + key.toLowerCase() + File.separator + entityName + key + ".java";
                 } else if ("ForeApi".equals(key)){
-                    // 前端api
-                    fileName = resultPath + File.separator + "api" + File.separator + entityName.toLowerCase() + ".ts";
+                    // 前端api，
+                    String apiFileName = entityName.substring(0, 1).toLowerCase() + entityName.substring(1);
+                    fileName = resultPath + File.separator + "api" + File.separator + apiFileName + ".ts";
                 } else if ("ForeHook".equals(key)) {
                     // 前端hook
                     fileName = resultPath + File.separator + "fore" + File.separator + "hook.tsx";

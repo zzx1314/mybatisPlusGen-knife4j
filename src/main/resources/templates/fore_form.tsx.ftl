@@ -9,7 +9,7 @@ export function useCollectorBusDevForm() {
       valueType: "copy",
       formItemProps: {
         style: {
-            width: "50%"
+          width: "50%"
         }
       }
     },

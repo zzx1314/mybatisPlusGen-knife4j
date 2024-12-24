@@ -36,5 +36,5 @@ export const ${entity?uncap_first}Update = (param?: object) => {
 };
 // ${table.comment!}删除
 export const ${entity?uncap_first}Delete = (param?: object) => {
-   return http.axiosDelete<Result>(${entity?uncap_first}Urls.delete + param);
+  return http.axiosDelete<Result>(${entity?uncap_first}Urls.delete + param);
 };
