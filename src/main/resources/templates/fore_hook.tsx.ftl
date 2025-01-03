@@ -13,7 +13,7 @@ import type { FieldValues } from "plus-pro-components";
 
 export function use${entity}() {
   // ----变量定义-----
-  const queryForm = reactive({
+  const queryForm = ref({
     name: "",
     beginTime: "",
     endTime: ""
