@@ -136,7 +136,7 @@ export function use${entity}() {
     };
     const query = {
       ...page,
-      ...queryForm
+      ...queryForm.value
     };
     if (query.endTime) {
       query.endTime = query.endTime + " 23:59:59";
@@ -164,9 +164,9 @@ export function use${entity}() {
     addForm.value = {
       id: null
     };
-    queryForm.name = "";
-    queryForm.beginTime = "";
-    queryForm.endTime = "";
+    queryForm.value.name = "";
+    queryForm.value.beginTime = "";
+    queryForm.value.endTime = "";
     dialogFormVisible.value = false;
     onSearch();
   }
