@@ -151,7 +151,7 @@ export function use${entity}() {
 
   const resetForm = formEl => {
     if (!formEl) return;
-    formEl.resetFields();
+    formEl.clearValidate();
   };
 
   const restartForm = formEl => {
