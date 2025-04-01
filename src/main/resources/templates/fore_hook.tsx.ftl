@@ -30,10 +30,8 @@ export function use${entity}() {
     currentPage: 1,
     background: true
   });
-  const addForm = reactive({
-    value: {
-      id: null
-    }
+  const addForm = ref({
+    id: null
   });
   const rules = reactive<FormRules>({
     name: [{ required: true, message: "称必填", trigger: "blur" }]
