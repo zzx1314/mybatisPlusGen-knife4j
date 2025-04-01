@@ -52,6 +52,15 @@ const {
       />
     </el-card>
     <PureTableBar title="业务列表" :columns="columns" @refresh="onSearch">
+      <template #buttons>
+        <el-button
+                type="primary"
+                :icon="useRenderIcon(AddFill)"
+                @click="openDia('新增', addFormRef)"
+        >
+          新增
+        </el-button>
+      </template>
       <template v-slot="{ size, checkList, dynamicColumns }">
         <pure-table
           border
