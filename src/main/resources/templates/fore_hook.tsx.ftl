@@ -34,19 +34,29 @@ export function use${entity}() {
     id: null
   });
   const rules = reactive<FormRules>({
-    name: [{ required: true, message: "称必填", trigger: "blur" }]
+    name: [{ required: true, message: "名称必填", trigger: "blur" }]
   });
   const columns: TableColumnList = [
     {
       type: "selection",
       width: 55,
-      align: "left"
+      align: "left",
+      fixed: "left",
+      label: "勾选列"
     },
     {
       label: "序号",
       type: "index",
+      fixed: "left",
       width: 70
     },
+    <#list table.fields as field>
+    {
+      label: "${field.comment}",
+      prop: "${field.propertyName}",
+      width: 100
+    },
+    </#list>
     {
       label: "操作",
       fixed: "right",
