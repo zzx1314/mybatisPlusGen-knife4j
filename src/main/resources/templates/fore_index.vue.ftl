@@ -3,7 +3,7 @@ import { ref } from "vue";
 import { FormInstance } from "element-plus";
 import { use${entity} } from "./hook";
 import { useRenderIcon } from "@/components/ReIcon/src/hooks";
-import Search from "@iconify-icons/ep/search";
+import EditPen from "@iconify-icons/ep/edit-pen";
 import Delete from "@iconify-icons/ep/delete";
 import { PureTableBar } from "@/components/RePureTableBar";
 import { useCollectorBusDevForm } from "./form";
@@ -89,7 +89,7 @@ const {
               link
               type="primary"
               :size="size"
-              :icon="useRenderIcon(Search)"
+              :icon="useRenderIcon(EditPen)"
               @click="openDia(row, addFormRef)"
             >
               修改
