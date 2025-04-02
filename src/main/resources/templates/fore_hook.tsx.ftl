@@ -1,4 +1,4 @@
-import { computed, onMounted, reactive, ref } from "vue";
+import { computed, nextTick, onMounted, reactive, ref } from "vue";
 import type { PaginationProps } from "@pureadmin/table";
 import type { FormRules } from "element-plus";
 import {
@@ -149,7 +149,10 @@ export function use${entity}() {
 
   const resetForm = formEl => {
     if (!formEl) return;
-    formEl.clearValidate();
+    nextTick(() => {
+      formEl.formInstance.clearValidate();
+      console.log("resetForm");
+    });
   };
 
   const restartForm = formEl => {
