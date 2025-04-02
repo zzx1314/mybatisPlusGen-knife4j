@@ -3,20 +3,18 @@ import type { PlusColumn } from "plus-pro-components";
 
 export function useCollectorBusDevForm() {
   const columnsForm: PlusColumn[] = [
+<#list table.fields as field>
+  <#if (field.columnName != "create_time") && (field.columnName != "modified_time") && (field.columnName != "is_deleted") && (field.columnName != "id")>
     {
-      label: "名称",
-      prop: "name",
+      label: "${field.comment}",
+      prop: "${field.propertyName}",
       valueType: "copy",
-      formItemProps: {
-        style: {
-          width: "50%"
-        }
-      }
     },
+  </#if>
+</#list>
     {
       label: "备注",
       prop: "remark",
-      width: "10px",
       valueType: "textarea"
     }
   ];

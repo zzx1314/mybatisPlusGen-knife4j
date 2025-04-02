@@ -51,11 +51,13 @@ export function use${entity}() {
       width: 70
     },
     <#list table.fields as field>
-    {
-      label: "${field.comment}",
-      prop: "${field.propertyName}",
-      width: 100
-    },
+      <#if (field.columnName != "modified_time") && (field.columnName != "is_deleted") && (field.columnName != "id")>
+      {
+        label: "${field.comment}",
+        prop: "${field.propertyName}",
+        width: 100
+      },
+      </#if>
     </#list>
     {
       label: "操作",
