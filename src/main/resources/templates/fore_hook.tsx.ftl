@@ -77,6 +77,12 @@ export function use${entity}() {
   });
 
   // -----方法定义---
+  function handleUpdate(row, formEl) {
+    console.log(row);
+    const data = JSON.stringify(row);
+    addForm.value = JSON.parse(data);
+    openDia("修改配置", formEl);
+    }
   // 删除
   function handleDelete(row) {
     console.log(row);
@@ -208,6 +214,7 @@ export function use${entity}() {
     moreCondition,
     onSearch,
     resetForm,
+    handleUpdate,
     handleDelete,
     handleSizeChange,
     handleCurrentChange,
