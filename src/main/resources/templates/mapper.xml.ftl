@@ -70,5 +70,6 @@
                 and ${table.entityName?uncap_first}.create_time &lt;= #{query.endTime}
             </if>
         </where>
+        order by ${table.entityName?uncap_first}.create_time desc
     </select>
 </mapper>
