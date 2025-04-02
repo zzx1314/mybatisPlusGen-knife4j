@@ -63,6 +63,12 @@
                     </if>
                 </#if>
             </#list>
+            <if test="query.beginTime != null">
+                and ${table.entityName?uncap_first}.create_time &gt;= #{query.beginTime}
+            </if>
+            <if test="query.endTime != null">
+                and ${table.entityName?uncap_first}.create_time &lt;= #{query.endTime}
+            </if>
         </where>
     </select>
 </mapper>
